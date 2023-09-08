@@ -231,9 +231,9 @@ class SoapClientTest extends TestCase
             $tracingData = $e->getSoapResponseTracingData();
         }
 
-        self::assertNotContains('boundary=Part_', $tracingData->getLastRequestHeaders(), 'Headers should link to boundary');
-        self::assertNotContains('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
-        self::assertContains('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
+        self::assertStringNotContainsStringIgnoringCase('boundary=Part_', $tracingData->getLastRequestHeaders(), 'Headers should link to boundary');
+        self::assertStringNotContainsStringIgnoringCase('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
+        self::assertStringContainsString('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
         self::assertStringEqualsFile(
             self::FIXTURES_DIR.'/Message/Request/EnumValutes.request.message',
             $tracingData->getLastRequest(),
@@ -266,7 +266,7 @@ class SoapClientTest extends TestCase
         $soapResponse = $soapClient->soapCall('generateTest', [$generateTestRequest]);
         $attachments = $soapResponse->getAttachments();
 
-        self::assertContains('</generateTestReturn>', $soapResponse->getResponseContent());
+        self::assertStringContainsString('</generateTestReturn>', $soapResponse->getResponseContent());
         self::assertTrue($soapResponse->hasAttachments());
         self::assertCount(1, $attachments);
 
