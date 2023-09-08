@@ -2,10 +2,10 @@
 
 namespace BeSimple\SoapCommon\Fault;
 
-use PHPUnit_Framework_TestCase;
 use SoapFault;
+use PHPUnit\Framework\TestCase;
 
-class SoapFaultSourceGetterTest extends PHPUnit_Framework_TestCase
+class SoapFaultSourceGetterTest extends TestCase
 {
     const FIXTURES_DIR = __DIR__ . '/../../Fixtures';
 

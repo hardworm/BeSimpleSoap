@@ -2,9 +2,9 @@
 
 namespace BeSimple\SoapCommon\Mime\Boundary;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class MimeBoundaryAnalyserTest extends PHPUnit_Framework_TestCase
+class MimeBoundaryAnalyserTest extends TestCase
 {
     const EXPECTED_HAS_BOUNDARY = true;
     const EXPECTED_HAS_NO_BOUNDARY = false;

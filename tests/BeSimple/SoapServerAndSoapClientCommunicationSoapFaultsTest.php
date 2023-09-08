@@ -12,11 +12,11 @@ use BeSimple\SoapCommon\SoapOptions\SoapOptions;
 use BeSimple\SoapCommon\SoapOptionsBuilder;
 use BeSimple\SoapServer\SoapServerBuilder;
 use Fixtures\GenerateTestRequest;
-use PHPUnit_Framework_TestCase;
 use SoapFault;
 use SoapHeader;
+use PHPUnit\Framework\TestCase;
 
-class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framework_TestCase
+class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
 {
     const CACHE_DIR = __DIR__ . '/../../cache';
     const FIXTURES_DIR = __DIR__ . '/../Fixtures';
@@ -26,12 +26,12 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
 
     private $localWebServerProcess;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->localWebServerProcess = popen('php -S localhost:8000 > /dev/null 2>&1 &', 'r');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         pclose($this->localWebServerProcess);
     }

@@ -7,9 +7,9 @@ use BeSimple\SoapCommon\SoapOptions\SoapOptions;
 use BeSimple\SoapCommon\SoapOptionsBuilder;
 use BeSimple\SoapServer\SoapOptions\SoapServerOptions;
 use Fixtures\SoapServerHandler;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class SoapServerBuilderTest extends PHPUnit_Framework_TestCase
+class SoapServerBuilderTest extends TestCase
 {
     const CACHE_DIR = __DIR__ . '/../../../cache';
     const FIXTURES_DIR = __DIR__ . '/../../Fixtures';

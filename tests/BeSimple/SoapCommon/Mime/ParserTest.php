@@ -3,9 +3,9 @@
 namespace BeSimple\SoapCommon\Mime;
 
 use Exception;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ParserTest extends PHPUnit_Framework_TestCase
+class ParserTest extends TestCase
 {
     const TEST_CASE_SHOULD_FAIL = true;
     const TEST_CASE_SHOULD_NOT_FAIL = false;

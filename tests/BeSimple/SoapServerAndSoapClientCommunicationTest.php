@@ -18,10 +18,10 @@ use Fixtures\DummyService;
 use Fixtures\DummyServiceMethodWithIncomingLargeSwaRequest;
 use Fixtures\DummyServiceMethodWithOutgoingLargeSwaRequest;
 use Fixtures\GenerateTestRequest;
-use PHPUnit_Framework_TestCase;
 use SoapHeader;
+use PHPUnit\Framework\TestCase;
 
-class SoapServerAndSoapClientCommunicationTest extends PHPUnit_Framework_TestCase
+class SoapServerAndSoapClientCommunicationTest extends TestCase
 {
     const CACHE_DIR = __DIR__ . '/../../cache';
     const FIXTURES_DIR = __DIR__ . '/../Fixtures';
@@ -31,12 +31,12 @@ class SoapServerAndSoapClientCommunicationTest extends PHPUnit_Framework_TestCas
 
     private $localWebServerProcess;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->localWebServerProcess = popen('php -S localhost:8000 > /dev/null 2>&1 &', 'r');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         pclose($this->localWebServerProcess);
     }

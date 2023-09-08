@@ -2,14 +2,14 @@
 
 namespace BeSimple\SoapClient\Xml\Path;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class RelativePathResolverTest extends PHPUnit_Framework_TestCase
+class RelativePathResolverTest extends TestCase
 {
     /** @var RelativePathResolver */
     private $relativePathResolver;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->relativePathResolver = new RelativePathResolver();
     }
