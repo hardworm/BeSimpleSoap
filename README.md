@@ -47,7 +47,7 @@ Create a `composer.json` file:
 ```json
 {
     "require": {
-        "tuscanicz/soap": "^4.2"
+        "hardworm/soap": "^4.2"
     }
 }
 ```
