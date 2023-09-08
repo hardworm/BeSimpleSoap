@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:ns1="http://web.cbr.ru/"><env:Body><ns1:EnumValutes><ns1:Seld>true</ns1:Seld></ns1:EnumValutes></env:Body></env:Envelope>

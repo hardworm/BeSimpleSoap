@@ -1,0 +1,24 @@
+
+--Part_13_64fad220aa716.64fad220aa71a
+Content-Type: application/soap+xml; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-ID: <part-818d797f-cb04-41b5-871e-e33fc512ef4d@response.info>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:ns1="http://web.cbr.ru/"><env:Body><ns1:EnumValutes><ns1:Seld>true</ns1:Seld></ns1:EnumValutes></env:Body></env:Envelope>
+
+--Part_13_64fad220aa716.64fad220aa71a
+Content-Type: application/pdf; charset=utf-8
+Content-Transfer-Encoding: binary
+Content-ID: <first-file.txt>
+Content-Location: first-file.txt
+
+hello world
+--Part_13_64fad220aa716.64fad220aa71a
+Content-Type: application/pdf; charset=utf-8
+Content-Transfer-Encoding: binary
+Content-ID: <second-file.txt>
+Content-Location: second-file.txt
+
+hello world
+--Part_13_64fad220aa716.64fad220aa71a--

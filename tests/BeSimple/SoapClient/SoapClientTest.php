@@ -123,18 +123,18 @@ class SoapClientTest extends TestCase
 
     public function testSoapCallNoSwaWithAttachmentMustFail()
     {
-        $this->setExpectedException(Exception::class, 'Non SWA SoapClient cannot handle SOAP action');
+        $this->expectExceptionMessage('Non SWA SoapClient cannot handle SOAP action');
 
         $soapClient = $this->getSoapBuilder()->build(
             SoapClientOptionsBuilder::createWithDefaults(),
             SoapOptionsBuilder::createWithDefaults(self::TEST_REMOTE_WSDL_UK)
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
 
         $soapClient->soapCall(
-            'GetUKLocationByCounty',
-            [$getUKLocationByCountyRequest],
+            'EnumValutes',
+            [$enumValutesRequest],
             [
                 new SoapAttachment(
                     'first-file.txt',
@@ -156,13 +156,13 @@ class SoapClientTest extends TestCase
                 self::CACHE_DIR
             )
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
 
         try {
             $soapResponse = $soapClient->soapCall(
-                'GetUKLocationByCounty',
-                [$getUKLocationByCountyRequest],
+                'EnumValutes',
+                [$enumValutesRequest],
                 [
                     new SoapAttachment(
                         'first-file.txt',
@@ -191,13 +191,13 @@ class SoapClientTest extends TestCase
             $this->getMultiPartBoundary($tracingData->getLastRequest()),
             'MultiPart boundary must match in request XML and Content-Type: ...; boundary header'
         );
-        self::assertContains('boundary=Part_', $tracingData->getLastRequestHeaders(), 'Headers should link to boundary');
-        self::assertContains('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
-        self::assertContains('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
+        self::assertStringContainsString('boundary=Part_', $tracingData->getLastRequestHeaders(), 'Headers should link to boundary');
+        self::assertStringContainsString('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
+        self::assertStringContainsString('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
         self::assertEquals(
             $this->removeOneTimeData(
                 file_get_contents(
-                    self::FIXTURES_DIR.'/Message/Request/GetUKLocationByCounty.request.mimepart.message'
+                    self::FIXTURES_DIR.'/Message/Request/EnumValutes.request.mimepart.message'
                 )
             ),
             $this->removeOneTimeData(
@@ -218,13 +218,13 @@ class SoapClientTest extends TestCase
                 self::CACHE_DIR
             )
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
 
         try {
             $soapResponse = $soapClient->soapCall(
-                'GetUKLocationByCounty',
-                [$getUKLocationByCountyRequest]
+                'EnumValutes',
+                [$enumValutesRequest]
             );
             $tracingData = $soapResponse->getTracingData();
         } catch (SoapFaultWithTracingData $e) {
@@ -235,7 +235,7 @@ class SoapClientTest extends TestCase
         self::assertNotContains('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
         self::assertContains('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
         self::assertStringEqualsFile(
-            self::FIXTURES_DIR.'/Message/Request/GetUKLocationByCounty.request.message',
+            self::FIXTURES_DIR.'/Message/Request/EnumValutes.request.message',
             $tracingData->getLastRequest(),
             'Requests must match'
         );
