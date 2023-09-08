@@ -55,7 +55,7 @@ class XmlDomDocumentImportReplacerTest extends TestCase
         );
         $wsdlSource = $wsdl->saveHTML();
 
-        self::assertContains(
+        self::assertStringContainsString(
             $assertImportXmlSource,
             $wsdlSource
         );
