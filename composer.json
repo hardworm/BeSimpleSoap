@@ -27,7 +27,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": "^7.2||^8.0",
         "ext-soap": "*",
         "ext-curl": "*",
         "ass/xmlsecurity": "~1.0",

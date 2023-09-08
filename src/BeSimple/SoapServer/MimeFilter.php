@@ -50,7 +50,8 @@ class MimeFilter implements SoapRequestFilter, SoapResponseFilter
     public function filterResponse(CommonSoapResponse $response, $attachmentType)
     {
         $attachmentsToSend = $response->getAttachments();
-        if (count($attachmentsToSend) > 0) {
+        //TODO: fixme
+        if (!empty($attachmentsToSend) && count($attachmentsToSend) > 0) {
             $multipart = new MimeMultiPart('Part_' . rand(10, 15) . '_' . uniqid() . '.' . uniqid());
             $soapPart = new MimePart($response->getContent(), 'text/xml', 'utf-8', MimePart::ENCODING_EIGHT_BIT);
             $soapVersion = $response->getVersion();

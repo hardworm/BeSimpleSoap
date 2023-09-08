@@ -74,7 +74,7 @@ class SoapServerAndSoapClientCommunicationTest extends TestCase
             self::fail('Response should contain attachments');
         }
 
-        self::assertContains('dummyServiceMethodWithOutgoingLargeSwaResponse', $response->getContent());
+        self::assertStringContainsString('dummyServiceMethodWithOutgoingLargeSwaResponse', $response->getContent());
         self::assertSame('DummyService.dummyServiceMethodWithOutgoingLargeSwa', $response->getAction());
 
         self::assertEquals(
@@ -108,7 +108,7 @@ class SoapServerAndSoapClientCommunicationTest extends TestCase
         $soapResponse = $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', [$request]);
         $attachments = $soapResponse->getAttachments();
 
-        self::assertContains('</dummyServiceReturn>', $soapResponse->getResponseContent());
+        self::assertStringContainsString('</dummyServiceReturn>', $soapResponse->getResponseContent());
         self::assertTrue($soapResponse->hasAttachments(), 'Response should contain attachments');
         self::assertCount(3, $attachments);
         self::assertInstanceOf(
@@ -162,7 +162,7 @@ class SoapServerAndSoapClientCommunicationTest extends TestCase
         $soapResponse = $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', [$request]);
         $attachments = $soapResponse->getAttachments();
 
-        self::assertContains('</dummyServiceReturn>', $soapResponse->getResponseContent());
+        self::assertStringContainsString('</dummyServiceReturn>', $soapResponse->getResponseContent());
         self::assertTrue($soapResponse->hasAttachments(), 'Response should contain attachments');
         self::assertCount(3, $attachments);
         self::assertInstanceOf(
@@ -222,8 +222,8 @@ class SoapServerAndSoapClientCommunicationTest extends TestCase
                 ]
             );
 
-            self::assertContains('dummyServiceMethodWithIncomingLargeSwa', $soapResponse->getRequest()->getContent());
-            self::assertContains('</dummyServiceReturn>', $soapResponse->getResponseContent());
+            self::assertStringContainsString('dummyServiceMethodWithIncomingLargeSwa', $soapResponse->getRequest()->getContent());
+            self::assertStringContainsString('</dummyServiceReturn>', $soapResponse->getResponseContent());
             self::assertTrue($soapResponse->getRequest()->hasAttachments(), 'Response MUST contain attachments');
             self::assertFalse($soapResponse->hasAttachments(), 'Response MUST NOT contain attachments');
             self::assertInstanceOf(SoapRequest::class, $soapResponse->getRequest());
@@ -275,7 +275,7 @@ class SoapServerAndSoapClientCommunicationTest extends TestCase
         );
         $response = $soapServer->handleRequest($request);
 
-        self::assertContains('dummyServiceMethodWithIncomingLargeSwaResponse', $response->getContent());
+        self::assertStringContainsString('dummyServiceMethodWithIncomingLargeSwaResponse', $response->getContent());
         self::assertSame('DummyService.dummyServiceMethodWithIncomingLargeSwa', $response->getAction());
         self::assertEquals(
             filesize(self::LARGE_SWA_FILE),
@@ -307,7 +307,7 @@ class SoapServerAndSoapClientCommunicationTest extends TestCase
         );
         $response = $soapServer->handleRequest($request);
 
-        self::assertContains('dummyServiceMethodWithIncomingLargeSwaResponse', $response->getContent());
+        self::assertStringContainsString('dummyServiceMethodWithIncomingLargeSwaResponse', $response->getContent());
         self::assertSame('DummyService.dummyServiceMethodWithIncomingLargeSwa', $response->getAction());
         self::assertEquals(
             filesize(self::LARGE_SWA_FILE),

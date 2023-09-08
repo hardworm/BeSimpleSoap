@@ -24,7 +24,7 @@ class ParserTest extends TestCase
         $failedTestCaseFailMessage = null
     ) {
         if ($testCaseShouldFail === true) {
-            $this->setExpectedException(Exception::class, $failedTestCaseFailMessage);
+            $this->expectExceptionMessage($failedTestCaseFailMessage);
         }
 
         $mimeMessage = Parser::parseMimeMessage($mimeMessage, $headers);

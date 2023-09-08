@@ -60,7 +60,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
             ])
         );
 
-        $this->setExpectedException(SoapFault::class);
+        $this->expectException(SoapFault::class);
 
         try {
             $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', []);
@@ -74,7 +74,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
                 '911',
                 $e->faultcode
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'with HTTP response code 500 with Message: This is a dummy SoapFault. and Code: 911',
                 $e->getMessage()
             );
@@ -103,7 +103,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
             ])
         );
 
-        $this->setExpectedException(SoapFault::class);
+        $this->expectException(SoapFault::class);
 
         try {
             $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', []);
@@ -118,19 +118,19 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
                 '911',
                 $e->faultcode
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'with HTTP response code 500 with Message: This is a dummy SoapFault. and Code: 911',
                 $e->getMessage()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '<faultcode>911</faultcode>',
                 $e->getSoapResponseTracingData()->getLastResponse()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '<request/>',
                 $e->getSoapResponseTracingData()->getLastRequest()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'Content-Type: application/soap+xml; charset=utf-8; action="DummyService.dummyServiceMethodWithOutgoingLargeSwa"',
                 $e->getSoapResponseTracingData()->getLastRequestHeaders()
             );
@@ -159,7 +159,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
             ])
         );
 
-        $this->setExpectedException(SoapFault::class);
+        $this->expectException(SoapFault::class);
 
         try {
             $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', []);
@@ -173,23 +173,23 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
                 'be-http-404',
                 $e->faultcode
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'with HTTP response code 404',
                 $e->getMessage()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'not found',
                 $e->getSoapResponseTracingData()->getLastResponse()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '404 Not Found',
                 $e->getSoapResponseTracingData()->getLastResponseHeaders()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '<request/>',
                 $e->getSoapResponseTracingData()->getLastRequest()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'Content-Type: application/soap+xml; charset=utf-8; action="DummyService.dummyServiceMethodWithOutgoingLargeSwa"',
                 $e->getSoapResponseTracingData()->getLastRequestHeaders()
             );
@@ -218,7 +218,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
             ])
         );
 
-        $this->setExpectedException(SoapFault::class);
+        $this->expectException(SoapFault::class);
 
         try {
             $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', []);
@@ -232,7 +232,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
                 'be-http-0',
                 $e->faultcode
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 't resolve host',
                 $e->getMessage()
             );
@@ -242,7 +242,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
             self::assertNull(
                 $e->getSoapResponseTracingData()->getLastResponse()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '<request/>',
                 $e->getSoapResponseTracingData()->getLastRequest()
             );
