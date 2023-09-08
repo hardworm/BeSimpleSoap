@@ -31,7 +31,7 @@
         "ext-soap": "*",
         "ext-curl": "*",
         "ass/xmlsecurity": "~1.0",
-        "zendframework/zend-mime": "2.1.*"
+        "laminas/laminas-mime": "^2.7"
     },
     "replace": {
         "besimple/soap-bundle": "self.version",
@@ -41,7 +41,6 @@
         "besimple/soap-wsdl":   "self.version"
     },
     "require-dev": {
-        "ext-mcrypt": "*",
         "mikey179/vfsstream": "~1.0",
         "phpunit/phpunit": "~8.0",
         "phpstan/phpstan": "^1.0",
