@@ -1,7 +1,7 @@
 {
-    "name": "bohrlot/soap",
+    "name": "hardworm/soap",
     "type": "library",
-    "description": "A fixed version of tuscanicz/soap used to build SOAP and WSDL based web services. This fork fixes a mime error in swa messages",
+    "description": "A fixed version of bohrlot/BeSimpleSoap used to build SOAP and WSDL based web services. This fork work php 7 and php 8",
     "keywords": ["soap", "soap server", "soap client"],
     "license": "MIT",
     "authors": [
@@ -24,13 +24,18 @@
         {
             "name": "Francesco Santoro",
             "email": "santoro@itacatech.it"
+        },
+        {
+          "name": "Aleksandr Zelenkov",
+          "email": "hardworm@gmail.com",
+          "role": "co-author"
         }
     ],
     "require": {
         "php": "^7.2||^8.0",
         "ext-soap": "*",
         "ext-curl": "*",
-        "ass/xmlsecurity": "~1.0",
+        "ass/xmlsecurity": "^1.0",
         "laminas/laminas-mime": "^2.7"
     },
     "replace": {
@@ -56,16 +61,5 @@
         "psr-4": {
             "": "tests/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.4-dev"
-        }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/bohrlot/BeSimpleSoap"
-        }
-    ]
+    }
 }
