@@ -7,29 +7,30 @@ use BeSimple\SoapCommon\ClassMap;
 use BeSimple\SoapCommon\SoapOptions\SoapOptions;
 use BeSimple\SoapCommon\SoapOptionsBuilder;
 use Exception;
+use Fixtures\EnumValutes;
 use Fixtures\GenerateTestRequest;
 use Fixtures\GetUKLocationByCounty;
-use PHPUnit_Framework_TestCase;
 use SoapHeader;
+use PHPUnit\Framework\TestCase;
 
-class SoapClientTest extends PHPUnit_Framework_TestCase
+class SoapClientTest extends TestCase
 {
     const CACHE_DIR = __DIR__ . '/../../../cache';
     const FIXTURES_DIR = __DIR__ . '/../../Fixtures';
     const TEST_HTTP_URL = 'http://localhost:8000/tests';
-    const TEST_ENDPOINT_UK = 'http://www.webservicex.net/uklocation.asmx';
-    const TEST_REMOTE_WSDL_UK = 'http://www.webservicex.net/uklocation.asmx?WSDL';
+    const TEST_ENDPOINT_UK = 'http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx';
+    const TEST_REMOTE_WSDL_UK = 'http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL';
     const TEST_REMOTE_ENDPOINT_NOT_WORKING = 'http://www.nosuchserverexist.tld/doesnotexist.endpoint';
     const TEST_REMOTE_WSDL_NOT_WORKING = 'http://www.nosuchserverexist.tld/doesnotexist.endpoint?wsdl';
 
     private $localWebServerProcess;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->localWebServerProcess = popen('php -S localhost:8000 > /dev/null 2>&1 &', 'r');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         pclose($this->localWebServerProcess);
     }
@@ -40,12 +41,12 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
             SoapClientOptionsBuilder::createWithDefaults(),
             SoapOptionsBuilder::createWithDefaults(self::TEST_REMOTE_WSDL_UK)
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
-        $soapResponse = $soapClient->soapCall('GetUKLocationByCounty', [$getUKLocationByCountyRequest]);
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
+        $soapResponse = $soapClient->soapCall('EnumValutes', [$enumValutesRequest]);
 
-        self::assertContains('GetUKLocationByCountyResult', $soapResponse->getContent());
-        self::assertContains('</GetUKLocationByCountyResponse>', $soapResponse->getContent());
+        self::assertStringContainsString('EnumValutesResult', $soapResponse->getContent());
+        self::assertStringContainsString('</EnumValutesResponse>', $soapResponse->getContent());
         self::assertEquals(self::TEST_ENDPOINT_UK, $soapResponse->getLocation());
     }
 
@@ -55,14 +56,14 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
             SoapClientOptionsBuilder::createWithEndpointLocation(self::TEST_ENDPOINT_UK),
             SoapOptionsBuilder::createWithDefaults(self::TEST_REMOTE_WSDL_UK)
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
-        $soapResponse = $soapClient->soapCall('GetUKLocationByCounty', [$getUKLocationByCountyRequest]);
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
+        $soapResponse = $soapClient->soapCall('EnumValutes', [$enumValutesRequest]);
 
-        self::assertContains('Connection: close', $soapResponse->getTracingData()->getLastRequestHeaders());
-        self::assertContains('County>London</', $soapResponse->getTracingData()->getLastRequest());
-        self::assertContains('GetUKLocationByCountyResult', $soapResponse->getContent());
-        self::assertContains('</GetUKLocationByCountyResponse>', $soapResponse->getContent());
+        self::assertStringContainsString('Connection: close', $soapResponse->getTracingData()->getLastRequestHeaders());
+        self::assertStringContainsString('<ns1:EnumValutes><ns1:Seld>true</ns1:Seld>', $soapResponse->getTracingData()->getLastRequest());
+        self::assertStringContainsString('EnumValutesResult', $soapResponse->getContent());
+        self::assertStringContainsString('</EnumValutesResponse>', $soapResponse->getContent());
         self::assertEquals(self::TEST_ENDPOINT_UK, $soapResponse->getLocation());
     }
 
@@ -72,33 +73,33 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
             SoapClientOptionsBuilder::createWithEndpointLocation(self::TEST_ENDPOINT_UK),
             SoapOptionsBuilder::createWithDefaultsKeepAlive(self::TEST_REMOTE_WSDL_UK)
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
-        $soapResponse = $soapClient->soapCall('GetUKLocationByCounty', [$getUKLocationByCountyRequest]);
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
+        $soapResponse = $soapClient->soapCall('EnumValutes', [$enumValutesRequest]);
 
-        self::assertContains('Connection: Keep-Alive', $soapResponse->getTracingData()->getLastRequestHeaders());
-        self::assertContains('County>London</', $soapResponse->getTracingData()->getLastRequest());
-        self::assertContains('GetUKLocationByCountyResult', $soapResponse->getContent());
-        self::assertContains('</GetUKLocationByCountyResponse>', $soapResponse->getContent());
+        self::assertStringContainsString('Connection: Keep-Alive', $soapResponse->getTracingData()->getLastRequestHeaders());
+        self::assertStringContainsString('<ns1:EnumValutes><ns1:Seld>true</ns1:Seld>', $soapResponse->getTracingData()->getLastRequest());
+        self::assertStringContainsString('EnumValutesResult', $soapResponse->getContent());
+        self::assertStringContainsString('</EnumValutesResponse>', $soapResponse->getContent());
         self::assertEquals(self::TEST_ENDPOINT_UK, $soapResponse->getLocation());
     }
 
     public function testSoapCallWithCustomEndpointInvalidShouldFail()
     {
-        $this->setExpectedException(Exception::class, 't resolve host');
+        $this->expectExceptionMessage('Could not resolve host');
 
         $soapClient = $this->getSoapBuilder()->build(
             SoapClientOptionsBuilder::createWithEndpointLocation(self::TEST_REMOTE_ENDPOINT_NOT_WORKING),
             SoapOptionsBuilder::createWithDefaults(self::TEST_REMOTE_WSDL_UK)
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
-        $soapClient->soapCall('GetUKLocationByCounty', [$getUKLocationByCountyRequest]);
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
+        $soapClient->soapCall('EnumValutes', [$enumValutesRequest]);
     }
 
     public function testSoapCallWithCacheEndpointDownShouldFail()
     {
-        $this->setExpectedException(Exception::class, 'Could not write WSDL cache file: Download failed with message');
+        $this->expectExceptionMessage('Could not write WSDL cache file: Download failed with message');
 
         $this->getSoapBuilder()->build(
             SoapClientOptionsBuilder::createWithDefaults(),
@@ -112,7 +113,7 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
 
     public function testSoapCallEndpointDownShouldFail()
     {
-        $this->setExpectedException(Exception::class, 'Parsing WSDL: Couldn\'t load from');
+        $this->expectExceptionMessage('Parsing WSDL: Couldn\'t load from');
 
         $this->getSoapBuilder()->build(
             SoapClientOptionsBuilder::createWithDefaults(),
@@ -122,18 +123,18 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
 
     public function testSoapCallNoSwaWithAttachmentMustFail()
     {
-        $this->setExpectedException(Exception::class, 'Non SWA SoapClient cannot handle SOAP action');
+        $this->expectExceptionMessage('Non SWA SoapClient cannot handle SOAP action');
 
         $soapClient = $this->getSoapBuilder()->build(
             SoapClientOptionsBuilder::createWithDefaults(),
             SoapOptionsBuilder::createWithDefaults(self::TEST_REMOTE_WSDL_UK)
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
 
         $soapClient->soapCall(
-            'GetUKLocationByCounty',
-            [$getUKLocationByCountyRequest],
+            'EnumValutes',
+            [$enumValutesRequest],
             [
                 new SoapAttachment(
                     'first-file.txt',
@@ -155,13 +156,13 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
                 self::CACHE_DIR
             )
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
 
         try {
             $soapResponse = $soapClient->soapCall(
-                'GetUKLocationByCounty',
-                [$getUKLocationByCountyRequest],
+                'EnumValutes',
+                [$enumValutesRequest],
                 [
                     new SoapAttachment(
                         'first-file.txt',
@@ -190,13 +191,13 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
             $this->getMultiPartBoundary($tracingData->getLastRequest()),
             'MultiPart boundary must match in request XML and Content-Type: ...; boundary header'
         );
-        self::assertContains('boundary=Part_', $tracingData->getLastRequestHeaders(), 'Headers should link to boundary');
-        self::assertContains('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
-        self::assertContains('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
+        self::assertStringContainsString('boundary=Part_', $tracingData->getLastRequestHeaders(), 'Headers should link to boundary');
+        self::assertStringContainsString('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
+        self::assertStringContainsString('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
         self::assertEquals(
             $this->removeOneTimeData(
                 file_get_contents(
-                    self::FIXTURES_DIR.'/Message/Request/GetUKLocationByCounty.request.mimepart.message'
+                    self::FIXTURES_DIR.'/Message/Request/EnumValutes.request.mimepart.message'
                 )
             ),
             $this->removeOneTimeData(
@@ -217,24 +218,24 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
                 self::CACHE_DIR
             )
         );
-        $getUKLocationByCountyRequest = new GetUKLocationByCounty();
-        $getUKLocationByCountyRequest->County = 'London';
+        $enumValutesRequest = new EnumValutes();
+        $enumValutesRequest->Seld = true;
 
         try {
             $soapResponse = $soapClient->soapCall(
-                'GetUKLocationByCounty',
-                [$getUKLocationByCountyRequest]
+                'EnumValutes',
+                [$enumValutesRequest]
             );
             $tracingData = $soapResponse->getTracingData();
         } catch (SoapFaultWithTracingData $e) {
             $tracingData = $e->getSoapResponseTracingData();
         }
 
-        self::assertNotContains('boundary=Part_', $tracingData->getLastRequestHeaders(), 'Headers should link to boundary');
-        self::assertNotContains('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
-        self::assertContains('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
+        self::assertStringNotContainsStringIgnoringCase('boundary=Part_', $tracingData->getLastRequestHeaders(), 'Headers should link to boundary');
+        self::assertStringNotContainsStringIgnoringCase('start="<part-', $tracingData->getLastRequestHeaders(), 'Headers should link to first MultiPart');
+        self::assertStringContainsString('action="', $tracingData->getLastRequestHeaders(), 'Headers should contain SOAP action');
         self::assertStringEqualsFile(
-            self::FIXTURES_DIR.'/Message/Request/GetUKLocationByCounty.request.message',
+            self::FIXTURES_DIR.'/Message/Request/EnumValutes.request.message',
             $tracingData->getLastRequest(),
             'Requests must match'
         );
@@ -265,7 +266,7 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
         $soapResponse = $soapClient->soapCall('generateTest', [$generateTestRequest]);
         $attachments = $soapResponse->getAttachments();
 
-        self::assertContains('</generateTestReturn>', $soapResponse->getResponseContent());
+        self::assertStringContainsString('</generateTestReturn>', $soapResponse->getResponseContent());
         self::assertTrue($soapResponse->hasAttachments());
         self::assertCount(1, $attachments);
 

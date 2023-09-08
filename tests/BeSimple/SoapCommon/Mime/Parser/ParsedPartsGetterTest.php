@@ -4,9 +4,9 @@ namespace BeSimple\SoapCommon\Mime\Parser;
 
 use BeSimple\SoapCommon\Mime\MultiPart;
 use Exception;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ParsedPartsGetterTest extends PHPUnit_Framework_TestCase
+class ParsedPartsGetterTest extends TestCase
 {
     const TEST_CASE_SHOULD_FAIL = true;
     const TEST_CASE_SHOULD_NOT_FAIL = false;
@@ -27,7 +27,7 @@ class ParsedPartsGetterTest extends PHPUnit_Framework_TestCase
         $failedTestCaseFailMessage = null
     ) {
         if ($testCaseShouldFail === true) {
-            $this->setExpectedException(Exception::class, $failedTestCaseFailMessage);
+            $this->expectExceptionMessage($failedTestCaseFailMessage);
         }
         $parsedPartsList = ParsedPartsGetter::getPartsFromMimeMessageLines(
             $multiPart,

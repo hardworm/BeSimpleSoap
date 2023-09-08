@@ -12,11 +12,11 @@ use BeSimple\SoapCommon\SoapOptions\SoapOptions;
 use BeSimple\SoapCommon\SoapOptionsBuilder;
 use BeSimple\SoapServer\SoapServerBuilder;
 use Fixtures\GenerateTestRequest;
-use PHPUnit_Framework_TestCase;
 use SoapFault;
 use SoapHeader;
+use PHPUnit\Framework\TestCase;
 
-class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framework_TestCase
+class SoapServerAndSoapClientCommunicationSoapFaultsTest extends TestCase
 {
     const CACHE_DIR = __DIR__ . '/../../cache';
     const FIXTURES_DIR = __DIR__ . '/../Fixtures';
@@ -26,12 +26,12 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
 
     private $localWebServerProcess;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->localWebServerProcess = popen('php -S localhost:8000 > /dev/null 2>&1 &', 'r');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         pclose($this->localWebServerProcess);
     }
@@ -60,7 +60,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
             ])
         );
 
-        $this->setExpectedException(SoapFault::class);
+        $this->expectException(SoapFault::class);
 
         try {
             $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', []);
@@ -74,7 +74,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
                 '911',
                 $e->faultcode
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'with HTTP response code 500 with Message: This is a dummy SoapFault. and Code: 911',
                 $e->getMessage()
             );
@@ -103,7 +103,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
             ])
         );
 
-        $this->setExpectedException(SoapFault::class);
+        $this->expectException(SoapFault::class);
 
         try {
             $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', []);
@@ -118,19 +118,19 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
                 '911',
                 $e->faultcode
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'with HTTP response code 500 with Message: This is a dummy SoapFault. and Code: 911',
                 $e->getMessage()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '<faultcode>911</faultcode>',
                 $e->getSoapResponseTracingData()->getLastResponse()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '<request/>',
                 $e->getSoapResponseTracingData()->getLastRequest()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'Content-Type: application/soap+xml; charset=utf-8; action="DummyService.dummyServiceMethodWithOutgoingLargeSwa"',
                 $e->getSoapResponseTracingData()->getLastRequestHeaders()
             );
@@ -159,7 +159,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
             ])
         );
 
-        $this->setExpectedException(SoapFault::class);
+        $this->expectException(SoapFault::class);
 
         try {
             $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', []);
@@ -173,23 +173,23 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
                 'be-http-404',
                 $e->faultcode
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'with HTTP response code 404',
                 $e->getMessage()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'not found',
                 $e->getSoapResponseTracingData()->getLastResponse()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '404 Not Found',
                 $e->getSoapResponseTracingData()->getLastResponseHeaders()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '<request/>',
                 $e->getSoapResponseTracingData()->getLastRequest()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 'Content-Type: application/soap+xml; charset=utf-8; action="DummyService.dummyServiceMethodWithOutgoingLargeSwa"',
                 $e->getSoapResponseTracingData()->getLastRequestHeaders()
             );
@@ -218,7 +218,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
             ])
         );
 
-        $this->setExpectedException(SoapFault::class);
+        $this->expectException(SoapFault::class);
 
         try {
             $soapClient->soapCall('dummyServiceMethodWithOutgoingLargeSwa', []);
@@ -232,7 +232,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
                 'be-http-0',
                 $e->faultcode
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 't resolve host',
                 $e->getMessage()
             );
@@ -242,7 +242,7 @@ class SoapServerAndSoapClientCommunicationSoapFaultsTest extends PHPUnit_Framewo
             self::assertNull(
                 $e->getSoapResponseTracingData()->getLastResponse()
             );
-            self::assertContains(
+            self::assertStringContainsString(
                 '<request/>',
                 $e->getSoapResponseTracingData()->getLastRequest()
             );

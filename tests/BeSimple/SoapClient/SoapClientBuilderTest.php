@@ -8,14 +8,14 @@ use BeSimple\SoapClient\SoapServerAuthentication\SoapServerAuthenticationBasic;
 use BeSimple\SoapCommon\ClassMap;
 use BeSimple\SoapCommon\SoapOptions\SoapOptions;
 use BeSimple\SoapCommon\SoapOptionsBuilder;
-use PHPUnit_Framework_TestCase;
 use SoapClient;
+use PHPUnit\Framework\TestCase;
 
-class SoapClientBuilderTest extends PHPUnit_Framework_TestCase
+class SoapClientBuilderTest extends TestCase
 {
     const CACHE_DIR = __DIR__ . '/../../../cache';
     const FIXTURES_DIR = __DIR__ . '/../../Fixtures';
-    const TEST_REMOTE_WSDL_UK = 'http://www.webservicex.net/uklocation.asmx?WSDL';
+    const TEST_REMOTE_WSDL_UK = 'http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL';
     const TEST_LOCAL_WSDL_UK = self::FIXTURES_DIR.'/localWsdl.wsdl';
 
     public function testSoapOptionsCreateWithDefaults()
